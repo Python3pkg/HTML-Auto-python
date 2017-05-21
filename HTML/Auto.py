@@ -74,7 +74,7 @@ class Attr:
     def __str__( self ):
         attr  = ''
         seen = {}
-        keys = sorted( self.params.keys() ) if self.sort else self.params.keys()
+        keys = sorted( self.params.keys() ) if self.sort else list(self.params.keys())
         for key in keys:
             if not key in seen:
                 val = self.params[key]
@@ -101,14 +101,14 @@ class Attr:
         return val
 
     def stringify( self, attrs ):
-        keys = sorted( attrs.keys() ) if self.sort else attrs.keys()
+        keys = sorted( attrs.keys() ) if self.sort else list(attrs.keys())
         vals = []
         for key in keys:
             val = attrs[key]
             if type( val ) is list:
                 val = self.rotate( val )
             elif type( val ) is dict:
-                k = sorted( val.keys() ) if self.sort else val.keys()
+                k = sorted( val.keys() ) if self.sort else list(val.keys())
                 val = k[0]
             vals.append( '%s: %s' % ( key, val ) )
         trail = ';' if len( vals ) else ''
@@ -264,7 +264,7 @@ class Encoder:
         }
 
         self.char2entity = {}
-        for k, v in self.entity2char.items():
+        for k, v in list(self.entity2char.items()):
             self.char2entity[v] = '&' + str(k) + ';'
 
         for i in range(255):
